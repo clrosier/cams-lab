@@ -4,3 +4,5 @@ resources:
   - configmap.yaml
   - helmrelease.yaml
   - helmrepo.yaml
+  - loadbalancer-ippool.yaml
+  - l2announcement-policy.yaml

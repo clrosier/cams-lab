@@ -1,0 +1,13 @@
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: home-policy
+spec:
+  loadBalancerIPs: true
+  interfaces:
+    - wlan0
+  nodeSelector:
+    matchExpressions:
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists

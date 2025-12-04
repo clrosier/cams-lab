@@ -37,10 +37,3 @@ data:
 
     externalIPs:
       enabled: true
-
-    loadBalancerIPPool:
-      enabled: true
-      ipv4:
-        - cidr: "192.168.2.0/24"
-          start: "192.168.2.50"
-          end: "192.168.2.99"
