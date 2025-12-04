@@ -4,3 +4,4 @@ resources:
   - helmrepo.yaml
   - prometheus-helmrelease.yaml
   - prometheus-namespace.yaml
+  - dashboards/raspberrypi-dashboard.yaml
