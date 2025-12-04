@@ -95,7 +95,7 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "(sum by (node)(node_memory_MemTotal_bytes) - sum by (node)(node_memory_MemFree_bytes) - sum by (node)(node_memory_Buffers_bytes) - sum by (node)(node_memory_Cached_bytes))\r\n/ sum by (node)(node_memory_MemTotal_bytes) * 100",
+          "expr": "(sum by (node)(node_memory_MemTotal_bytes{node=~\"[[HOST]]\"}) - sum by (node)(node_memory_MemFree_bytes{node=~\"[[HOST]]\"}) - sum by (node)(node_memory_Buffers_bytes{node=~\"[[HOST]]\"}) - sum by (node)(node_memory_Cached_bytes{node=~\"[[HOST]]\"}))\r\n/ sum by (node)(node_memory_MemTotal_bytes{node=~\"[[HOST]]\"}) * 100",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -170,7 +170,7 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "100 -(sum(rate(node_cpu_seconds_total{mode=\"idle\"}[5m])) by(node)\r\n/ sum(rate(node_cpu_seconds_total[5m])) by(node) * 100)",
+          "expr": "100 -(sum(rate(node_cpu_seconds_total{mode=\"idle\",node=~\"[[HOST]]\"}[5m])) by(node)\r\n/ sum(rate(node_cpu_seconds_total{node=~\"[[HOST]]\"}[5m])) by(node) * 100)",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -248,7 +248,7 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "max(node_network_up) by (node)",
+          "expr": "max(node_network_up{node=~\"[[HOST]]\"}) by (node)",
           "format": "time_series",
           "instant": false,
           "interval": "",
@@ -327,7 +327,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "avg(node_thermal_zone_temp) by (node)\r\n",
+          "expr": "avg(node_thermal_zone_temp{node=~\"[[HOST]]\"}) by (node)\r\n",
           "format": "time_series",
           "instant": false,
           "interval": "",
@@ -409,7 +409,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "100 -(sum(rate(node_cpu_seconds_total{mode=\"idle\"}[5m]))\r\n/ sum(rate(node_cpu_seconds_total[5m]))  * 100)",
+          "expr": "100 -(sum(rate(node_cpu_seconds_total{mode=\"idle\",node=~\"[[HOST]]\"}[5m]))\r\n/ sum(rate(node_cpu_seconds_total{node=~\"[[HOST]]\"}[5m]))  * 100)",
           "interval": "",
           "legendFormat": "",
           "range": true,
@@ -489,7 +489,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "(sum (node_memory_MemTotal_bytes) - sum (node_memory_MemFree_bytes) - sum (node_memory_Buffers_bytes) - sum (node_memory_Cached_bytes))\r\n/ sum (node_memory_MemTotal_bytes) * 100",
+          "expr": "(sum (node_memory_MemTotal_bytes{node=~\"[[HOST]]\"}) - sum (node_memory_MemFree_bytes{node=~\"[[HOST]]\"}) - sum (node_memory_Buffers_bytes{node=~\"[[HOST]]\"}) - sum (node_memory_Cached_bytes{node=~\"[[HOST]]\"}))\r\n/ sum (node_memory_MemTotal_bytes{node=~\"[[HOST]]\"}) * 100",
           "interval": "",
           "legendFormat": "",
           "range": true,
@@ -552,7 +552,7 @@
             "uid": "prometheus"
           },
           "exemplar": true,
-          "expr": "sum(kube_node_status_capacity{resource=\"memory\"}\r\n)",
+          "expr": "sum(kube_node_status_capacity{resource=\"memory\",node=~\"[[HOST]]\"})\r\n",
           "format": "table",
           "instant": false,
           "interval": "",
@@ -615,7 +615,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "\r\nsum(node_filesystem_free_bytes) by (node, device)\r\n",
+          "expr": "\r\nsum(node_filesystem_free_bytes{node=~\"[[HOST]]\"}) by (node, device)\r\n",
           "interval": "",
           "intervalFactor": 10,
           "legendFormat": "{{node}}({{device}})",
@@ -708,7 +708,7 @@
             "uid": "prometheus"
           },
           "exemplar": true,
-          "expr": "sum(kube_node_status_capacity{resource=\"cpu\"}\r\n)",
+          "expr": "sum(kube_node_status_capacity{resource=\"cpu\",node=~\"[[HOST]]\"})\r\n",
           "format": "table",
           "instant": false,
           "interval": "",
@@ -806,7 +806,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(kube_node_info) by (node, container_runtime_version, kernel_version, os_image, kubelet_version)",
+          "expr": "sum(kube_node_info{node=~\"[[HOST]]\"}) by (node, container_runtime_version, kernel_version, os_image, kubelet_version)",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -876,7 +876,7 @@
             "uid": "prometheus"
           },
           "exemplar": true,
-          "expr": "sum(rate(kubelet_http_requests_duration_seconds_sum[5m])) by (instance)",
+          "expr": "sum(rate(kubelet_http_requests_duration_seconds_sum{node=~\"[[HOST]]\"}[5m])) by (instance)",
           "interval": "",
           "intervalFactor": 10,
           "legendFormat": "{{k3s_io_hostname}}",
