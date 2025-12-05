@@ -13,6 +13,11 @@ kubeProxyReplacement: true
 k8sServiceHost: 192.168.2.206
 k8sServicePort: 6443
 
+# Enable host reachable services for API server access
+hostServices:
+  enabled: true
+  protocols: tcp,udp
+
 # L2 LoadBalancer IPs
 l2announcements:
   enabled: true
