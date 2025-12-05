@@ -10,7 +10,7 @@ envoy:
   enabled: true
 
 kubeProxyReplacement: true
-k8sServiceHost: 127.0.0.1
+k8sServiceHost: 192.168.2.206
 k8sServicePort: 6443
 
 # L2 LoadBalancer IPs
@@ -21,15 +21,24 @@ l2announcements:
 ipam:
   mode: "cluster-pool"
   operator:
-    clusterPoolIPv4PodCIDR: "10.42.0.0/16"
+    clusterPoolIPv4PodCIDRList:
+      - "10.42.0.0/16"
     clusterPoolIPv4MaskSize: 24
 
 loadBalancer:
   algorithm: "maglev"
-  mode: "dsr"
+  mode: "snat"
+
+bpf:
+  lbMode: "snat"
 
 externalIPs:
   enabled: true
+
+# Use native routing instead of tunnel for L2 announcements to work
+routingMode: native
+autoDirectNodeRoutes: true
+ipv4NativeRoutingCIDR: "10.42.0.0/16"
 
 loadBalancerIPPool:
   enabled: true
