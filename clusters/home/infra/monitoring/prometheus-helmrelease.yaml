@@ -24,6 +24,11 @@ spec:
               targetLabel: node
     grafana:
       adminPassword: "admin"
+      # Configure Grafana to work behind /lab/grafana path
+      grafana.ini:
+        server:
+          root_url: "https://cameronrosier.com/lab/grafana"
+          serve_from_sub_path: true
       sidecar:
         dashboards:
           enabled: true

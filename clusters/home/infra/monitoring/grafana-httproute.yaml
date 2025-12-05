@@ -1,0 +1,29 @@
+---
+# HTTPRoute for Grafana using Gateway API
+# Serves Grafana at https://cameronrosier.com/lab/grafana
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  parentRefs:
+    - name: home-gateway
+      namespace: default
+  hostnames:
+    - "cameronrosier.com"
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /lab/grafana
+      filters:
+        # Rewrite /lab/grafana -> / for Grafana
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+      backendRefs:
+        - name: grafana
+          port: 80
