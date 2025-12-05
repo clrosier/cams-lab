@@ -29,6 +29,8 @@ spec:
         server:
           root_url: "/lab/grafana"
           serve_from_sub_path: true
+          domain: ""  # Don't enforce specific domain
+          enforce_domain: false
       sidecar:
         dashboards:
           enabled: true
