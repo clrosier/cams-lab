@@ -27,7 +27,7 @@ spec:
       # Configure Grafana to work behind /lab/grafana path
       grafana.ini:
         server:
-          root_url: "%(protocol)s://%(domain)s:%(http_port)s/lab/grafana"
+          root_url: "/lab/grafana"
           serve_from_sub_path: true
       sidecar:
         dashboards:
