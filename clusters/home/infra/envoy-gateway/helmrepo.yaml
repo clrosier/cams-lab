@@ -6,4 +6,4 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  url: https://gateway.envoyproxy.io
+  url: oci://docker.io/envoyproxy
