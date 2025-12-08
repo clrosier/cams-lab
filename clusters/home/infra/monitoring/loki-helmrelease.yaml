@@ -29,9 +29,9 @@ spec:
         schema_config:
           configs:
             - from: "2024-01-01"
-              store: tsdb
+              store: boltdb-shipper
               object_store: filesystem
-              schema: v13
+              schema: v11
               index:
                 prefix: index_
                 period: 24h
