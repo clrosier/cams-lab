@@ -2,7 +2,7 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: cameronrosier-wildcard
+  name: cameronrosier-cert
   namespace: default
 spec:
   secretName: cameronrosier-tls
@@ -11,4 +11,5 @@ spec:
     kind: ClusterIssuer
   dnsNames:
     - "cameronrosier.com"
-    - "*.cameronrosier.com"
+    - "grafana.cameronrosier.com"
+    - "prometheus.cameronrosier.com"
