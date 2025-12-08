@@ -1,6 +1,6 @@
 ---
 # HTTPRoute for Grafana using Gateway API
-# Serves Grafana at https://grafana.cameronrosier.com
+# Serves Grafana at https://cameronrosier.com/lab/grafana
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -12,8 +12,12 @@ spec:
       namespace: default
       sectionName: https  # Use HTTPS listener
   hostnames:
-    - "grafana.cameronrosier.com"
+    - "cameronrosier.com"
   rules:
-    - backendRefs:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /lab/grafana
+      backendRefs:
         - name: kube-prometheus-stack-grafana
           port: 80

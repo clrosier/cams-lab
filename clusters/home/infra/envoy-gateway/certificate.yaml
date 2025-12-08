@@ -11,5 +11,3 @@ spec:
     kind: ClusterIssuer
   dnsNames:
     - "cameronrosier.com"
-    - "grafana.cameronrosier.com"
-    - "prometheus.cameronrosier.com"
