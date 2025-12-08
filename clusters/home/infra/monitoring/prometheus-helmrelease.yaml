@@ -22,6 +22,9 @@ spec:
           relabelings:
             - sourceLabels: [__meta_kubernetes_pod_node_name]
               targetLabel: node
+    prometheus:
+      prometheusSpec:
+        routePrefix: /lab/prometheus
     grafana:
       adminPassword: "admin"
       # Configure Grafana to work behind /lab/grafana path
