@@ -9,10 +9,24 @@ metadata:
 spec:
   gatewayClassName: eg
   listeners:
-    # HTTP listener on port 80
+    # HTTP listener on port 80 - redirects to HTTPS
     - name: http
       protocol: HTTP
       port: 80
       allowedRoutes:
         namespaces:
           from: All
+    # HTTPS listener on port 443
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname: "*.cameronrosier.com"
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: cameronrosier-tls
+            namespace: default

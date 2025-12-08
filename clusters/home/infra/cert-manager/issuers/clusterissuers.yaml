@@ -11,10 +11,13 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-staging-key
     solvers:
-      # HTTP-01 challenge solver
+      # HTTP-01 challenge solver for Gateway API
       - http01:
-          ingress:
-            class: cilium
+          gatewayHTTPRoute:
+            parentRefs:
+              - name: home-gateway
+                namespace: default
+                kind: Gateway
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -28,7 +31,10 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-prod-key
     solvers:
-      # HTTP-01 challenge solver
+      # HTTP-01 challenge solver for Gateway API
       - http01:
-          ingress:
-            class: cilium
+          gatewayHTTPRoute:
+            parentRefs:
+              - name: home-gateway
+                namespace: default
+                kind: Gateway

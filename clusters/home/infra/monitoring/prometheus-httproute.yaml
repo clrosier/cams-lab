@@ -1,6 +1,6 @@
 ---
-# HTTPRoute for Grafana using Gateway API
-# Serves Grafana at https://cameronrosier.com/lab/grafana
+# HTTPRoute for Prometheus using Gateway API
+# Serves Prometheus at https://prometheus.cameronrosier.com
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -10,18 +10,10 @@ spec:
   parentRefs:
     - name: home-gateway
       namespace: default
-  # No hostnames = matches any host (including IPs)
+      sectionName: https  # Use HTTPS listener
+  hostnames:
+    - "prometheus.cameronrosier.com"
   rules:
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /lab/prometheus
-      filters:
-        - type: URLRewrite
-          urlRewrite:
-            path:
-              type: ReplacePrefixMatch
-              replacePrefixMatch: /
-      backendRefs:
+    - backendRefs:
         - name: kube-prometheus-stack-prometheus
           port: 9090

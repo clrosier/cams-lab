@@ -9,3 +9,4 @@ resources:
   - helmrelease.yaml
   - gatewayclass.yaml
   - gateway.yaml
+  - certificate.yaml

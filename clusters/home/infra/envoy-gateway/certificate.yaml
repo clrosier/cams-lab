@@ -1,0 +1,14 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: cameronrosier-wildcard
+  namespace: default
+spec:
+  secretName: cameronrosier-tls
+  issuerRef:
+    name: letsencrypt-staging  # Start with staging, switch to letsencrypt-prod once working
+    kind: ClusterIssuer
+  dnsNames:
+    - "cameronrosier.com"
+    - "*.cameronrosier.com"
