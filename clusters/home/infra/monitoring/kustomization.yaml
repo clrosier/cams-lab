@@ -9,5 +9,4 @@ resources:
   - prometheus-namespace.yaml
   - loki-helmrelease.yaml
   - loki-httproute.yaml
-  - promtail-helmrelease.yaml
   - dashboards/raspberrypi-dashboard.yaml

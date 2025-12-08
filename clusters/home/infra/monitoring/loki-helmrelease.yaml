@@ -9,32 +9,32 @@ spec:
   chart:
     spec:
       chart: loki-stack
-      version: "2.x"
+      version: "2.10.x"
       sourceRef:
         kind: HelmRepository
         name: grafana
         namespace: flux-system
   values:
+    # Loki configuration
     loki:
       enabled: true
       persistence:
         enabled: true
-        storageClassName: local-path
         size: 10Gi
+        storageClassName: longhorn
       config:
         auth_enabled: false
+        chunk_store_config:
+          max_look_back_period: 168h  # 7 days
+        table_manager:
+          retention_deletes_enabled: true
+          retention_period: 168h  # 7 days
         limits_config:
-          retention_period: 168h
+          enforce_metric_name: false
+          reject_old_samples: true
+          reject_old_samples_max_age: 168h
+          max_entries_limit_per_query: 5000
           max_query_series: 1000
-        schema_config:
-          configs:
-            - from: "2024-01-01"
-              store: boltdb-shipper
-              object_store: filesystem
-              schema: v11
-              index:
-                prefix: index_
-                period: 24h
       resources:
         requests:
           cpu: 100m
@@ -42,20 +42,38 @@ spec:
         limits:
           memory: 512Mi
     
-    # Promtail already deployed separately
+    # Promtail configuration
     promtail:
-      enabled: false
+      enabled: true
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          memory: 128Mi
+      config:
+        clients:
+          - url: http://{{ .Release.Name }}:3100/loki/api/v1/push
+        snippets:
+          pipelineStages:
+            - cri: {}
+            # Parse JSON logs if present
+            - json:
+                expressions:
+                  level: level
+                  msg: message
+            - labels:
+                level:
+      tolerations:
+        - effect: NoSchedule
+          operator: Exists
     
-    # Don't need Grafana (already have it)
+    # Disable components we don't need
     grafana:
       enabled: false
-    
-    # Don't need extra monitoring
     prometheus:
       enabled: false
-    
     fluent-bit:
       enabled: false
-    
     logstash:
       enabled: false

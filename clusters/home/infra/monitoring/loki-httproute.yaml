@@ -1,5 +1,5 @@
 ---
-# HTTPRoute for Loki query UI (optional)
+# HTTPRoute for Loki query UI
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -24,5 +24,5 @@ spec:
               type: ReplacePrefixMatch
               replacePrefixMatch: /
       backendRefs:
-        - name: loki
+        - name: loki-stack
           port: 3100
