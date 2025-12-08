@@ -2,48 +2,39 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: loki
+  name: loki-stack
   namespace: monitoring
 spec:
   interval: 5m
   chart:
     spec:
-      chart: loki
-      version: "6.x"
+      chart: loki-stack
+      version: "2.x"
       sourceRef:
         kind: HelmRepository
         name: grafana
         namespace: flux-system
   values:
-    # Simple scalable mode - single instance
-    deploymentMode: SingleBinary
-    
     loki:
-      auth_enabled: false
-      commonConfig:
-        replication_factor: 1
-      storage:
-        type: filesystem
-      schemaConfig:
-        configs:
-          - from: "2024-01-01"
-            store: tsdb
-            object_store: filesystem
-            schema: v13
-            index:
-              prefix: index_
-              period: 24h
-      limits_config:
-        retention_period: 168h
-        max_query_series: 1000
-    
-    # Single binary configuration
-    singleBinary:
-      replicas: 1
+      enabled: true
       persistence:
         enabled: true
+        storageClassName: longhorn
         size: 10Gi
-        storageClass: longhorn
+      config:
+        auth_enabled: false
+        limits_config:
+          retention_period: 168h
+          max_query_series: 1000
+        schema_config:
+          configs:
+            - from: "2024-01-01"
+              store: tsdb
+              object_store: filesystem
+              schema: v13
+              index:
+                prefix: index_
+                period: 24h
       resources:
         requests:
           cpu: 100m
@@ -51,50 +42,20 @@ spec:
         limits:
           memory: 512Mi
     
-    # Disable all other components
-    backend:
-      replicas: 0
-    read:
-      replicas: 0
-    write:
-      replicas: 0
-    ingester:
-      replicas: 0
-    querier:
-      replicas: 0
-    queryFrontend:
-      replicas: 0
-    queryScheduler:
-      replicas: 0
-    distributor:
-      replicas: 0
-    compactor:
-      replicas: 0
-    indexGateway:
-      replicas: 0
-    bloomCompactor:
-      replicas: 0
-    bloomGateway:
-      replicas: 0
-    
-    # Disable caching
-    chunksCache:
-      enabled: false
-    resultsCache:
+    # Promtail already deployed separately
+    promtail:
       enabled: false
     
-    # Disable gateway
-    gateway:
+    # Don't need Grafana (already have it)
+    grafana:
       enabled: false
     
-    # Disable monitoring
-    monitoring:
-      selfMonitoring:
-        enabled: false
-        grafanaAgent:
-          installOperator: false
-      lokiCanary:
-        enabled: false
+    # Don't need extra monitoring
+    prometheus:
+      enabled: false
     
-    test:
+    fluent-bit:
+      enabled: false
+    
+    logstash:
       enabled: false
