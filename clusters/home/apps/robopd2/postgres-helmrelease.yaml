@@ -1,0 +1,127 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: postgresql
+  namespace: robopd2
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: postgresql
+      version: "16.x"  # Helm chart version (deploys PostgreSQL 16)
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: flux-system
+  install:
+    createNamespace: false
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    # PostgreSQL image - use the latest PostgreSQL 16
+    image:
+      tag: "16"
+    
+    # Single replica (standalone mode)
+    architecture: standalone
+    
+    # Authentication - use existing secret
+    auth:
+      existingSecret: postgres-credentials
+      username: robopd2
+      database: robopd2
+    
+    # Primary pod configuration
+    primary:
+      # Resource limits suitable for Raspberry Pi
+      resources:
+        requests:
+          cpu: 100m
+          memory: 256Mi
+        limits:
+          cpu: 1000m
+          memory: 1Gi
+      
+      # Persistence configuration
+      persistence:
+        enabled: true
+        size: 10Gi
+        # Use default storage class (local-path on k3s)
+        # storageClass: ""
+      
+      # Node selection - prefer worker nodes (Pi 5s are workers)
+      # This avoids scheduling on the controller and prefers Pi 5 workers
+      affinity:
+        nodeAffinity:
+          # Prefer Pi 5 workers over Pi 4
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+            - weight: 50
+              preference:
+                matchExpressions:
+                  - key: node.kubernetes.io/pi-type
+                    operator: In
+                    values:
+                      - "5"
+        # Spread across available workers for future HA
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: postgresql
+                topologyKey: kubernetes.io/hostname
+      
+      # Tolerate arm64 nodes
+      tolerations: []
+      
+      # PostgreSQL configuration tuned for Raspberry Pi
+      configuration: |
+        # Memory settings (conservative for 8GB Pi)
+        shared_buffers = 256MB
+        effective_cache_size = 512MB
+        work_mem = 16MB
+        maintenance_work_mem = 64MB
+        
+        # Connection settings
+        max_connections = 100
+        
+        # WAL settings
+        wal_buffers = 16MB
+        min_wal_size = 100MB
+        max_wal_size = 1GB
+        
+        # Checkpoint settings
+        checkpoint_completion_target = 0.9
+        
+        # Logging
+        log_timezone = 'UTC'
+        
+        # Locale
+        lc_messages = 'en_US.UTF-8'
+        lc_monetary = 'en_US.UTF-8'
+        lc_numeric = 'en_US.UTF-8'
+        lc_time = 'en_US.UTF-8'
+    
+    # Metrics for Prometheus (optional, integrates with your monitoring stack)
+    metrics:
+      enabled: true
+      resources:
+        requests:
+          cpu: 10m
+          memory: 32Mi
+        limits:
+          cpu: 100m
+          memory: 128Mi
+      serviceMonitor:
+        enabled: true
+        namespace: robopd2
