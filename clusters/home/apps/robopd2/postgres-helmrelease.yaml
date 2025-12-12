@@ -117,6 +117,10 @@ spec:
     # Metrics for Prometheus (optional, integrates with your monitoring stack)
     metrics:
       enabled: true
+      image:
+        registry: docker.io
+        repository: bitnami/postgres-exporter
+        tag: "latest"
       resources:
         requests:
           cpu: 10m
