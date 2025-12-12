@@ -10,3 +10,4 @@ resources:
   - loki-helmrelease.yaml
   - loki-httproute.yaml
   - dashboards/raspberrypi-dashboard.yaml
+  - dashboards/postgresql-dashboard.yaml
