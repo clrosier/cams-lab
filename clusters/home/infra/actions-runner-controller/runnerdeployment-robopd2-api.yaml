@@ -24,19 +24,17 @@ spec:
         limits:
           cpu: 2000m
           memory: 4Gi
-      # Volume mounts for build artifacts (buildah doesn't need Docker socket)
-      # Note: If you need Docker socket for other tools, uncomment below
-      # volumeMounts:
-      # - mountPath: /var/run/docker.sock
-      #   name: docker-sock
-      # volumes:
-      # - name: docker-sock
-      #   hostPath:
-      #     path: /var/run/docker.sock
-      #     type: Socket
-      # env:
-      # - name: DOCKER_HOST
-      #   value: unix:///var/run/docker.sock
+      # Security context for buildah (needs to run as root with capabilities)
+      # Note: buildah requires privileged access or specific capabilities to work properly
+      securityContext:
+        privileged: true
+      # Volume mounts for buildah storage
+      volumeMounts:
+      - mountPath: /var/lib/containers
+        name: buildah-storage
+      volumes:
+      - name: buildah-storage
+        emptyDir: {}
       # Node selector to prefer worker nodes (avoid control-plane)
       # nodeSelector:
       #   node-role.kubernetes.io/control-plane: "false"
