@@ -7,4 +7,5 @@ resources:
   - helmrelease.yaml
   - github-secret.yaml
   - runnerdeployment.yaml
+  - runnerdeployment-robopd2-api.yaml
 
