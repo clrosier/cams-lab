@@ -20,15 +20,14 @@ spec:
   upgrade:
     crds: CreateReplace
   values:
+    # GitHub authentication secret configuration
+    authSecret:
+      enabled: true
+      create: false
+      name: github-pat
+    
     # Controller configuration
     controllerManager:
-      # GitHub authentication via PAT token from secret
-      env:
-      - name: GITHUB_TOKEN
-        valueFrom:
-          secretKeyRef:
-            name: github-pat
-            key: github_token
       resources:
         requests:
           cpu: 100m
