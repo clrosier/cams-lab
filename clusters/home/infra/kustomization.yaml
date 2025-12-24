@@ -4,3 +4,4 @@ resources:
   - ./cert-manager
   - ./monitoring
   - ./envoy-gateway
+  - ./actions-runner-controller

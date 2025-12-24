@@ -1,0 +1,60 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: actions-runner-controller
+  namespace: actions-runner-system
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: actions-runner-controller
+      version: "0.9.x"
+      sourceRef:
+        kind: HelmRepository
+        name: actions-runner-controller
+        namespace: flux-system
+  install:
+    createNamespace: false
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
+  values:
+    # Controller configuration
+    controllerManager:
+      # GitHub authentication via PAT token from secret
+      env:
+      - name: GITHUB_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: github-pat
+            key: github_token
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          cpu: 500m
+          memory: 512Mi
+    
+    # Webhook configuration
+    webhookServer:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          cpu: 200m
+          memory: 128Mi
+    
+    # Metrics server (optional, for Prometheus)
+    metricsServer:
+      enabled: true
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          cpu: 200m
+          memory: 128Mi
+

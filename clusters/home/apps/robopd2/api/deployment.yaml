@@ -1,0 +1,54 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: robopd2-api
+  namespace: robopd2
+  labels:
+    app: robopd2-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: robopd2-api
+  template:
+    metadata:
+      labels:
+        app: robopd2-api
+    spec:
+      containers:
+      - name: api
+        image: robopd2-api:latest  # TODO: Update with your actual image registry
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+          name: http
+          protocol: TCP
+        env:
+        - name: DATABASE_URL
+          value: "postgresql://robopd2:$(POSTGRES_PASSWORD)@postgresql.robopd2.svc.cluster.local:5432/robopd2"
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials
+              key: password
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+

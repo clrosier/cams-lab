@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: robopd2-web
+  namespace: robopd2
+  labels:
+    app: robopd2-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: robopd2-web
+  template:
+    metadata:
+      labels:
+        app: robopd2-web
+    spec:
+      containers:
+      - name: web
+        image: robopd2-web:latest  # TODO: Update with your actual image registry
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        env:
+        - name: VITE_API_URL
+          value: "http://robopd2-api.robopd2.svc.cluster.local"
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 5
+
