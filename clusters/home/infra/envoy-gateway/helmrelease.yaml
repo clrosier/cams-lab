@@ -25,3 +25,13 @@ spec:
       envoyGateway:
         gateway:
           controllerName: gateway.envoyproxy.io/gatewayclass-controller
+    # Resource limits for Raspberry Pi
+    deployment:
+      envoy:
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 1000m
+            memory: 512Mi
