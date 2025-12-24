@@ -12,8 +12,6 @@ spec:
       repository: cameronrosier/cams-lab
       # Optional: Use organization-level runner instead
       # organization: cameronrosier
-      # GitHub authentication via PAT token
-      githubServerURL: https://github.com
       # Labels to identify this runner in GitHub Actions workflows
       labels:
         - self-hosted

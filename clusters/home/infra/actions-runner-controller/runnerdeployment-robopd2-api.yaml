@@ -10,7 +10,6 @@ spec:
     spec:
       # Repository-level runner for robopd2-api
       repository: cameronrosier/robopd2-api
-      githubServerURL: https://github.com
       # Labels to identify this runner in GitHub Actions workflows
       labels:
         - self-hosted
