@@ -21,13 +21,27 @@ data:
     fi
 
     # Get current DNS record
+    # Try with trailing dot first (Route53 format)
     CURRENT_RECORD=$(aws route53 list-resource-record-sets \
       --hosted-zone-id "$HOSTED_ZONE_ID" \
       --query "ResourceRecordSets[?Name=='${RECORD_NAME}.']" \
       --output json)
 
+    # If no record found, try without trailing dot
+    if [ "$(echo "$CURRENT_RECORD" | jq -r 'length')" = "0" ]; then
+      echo "No record found with trailing dot, trying without..."
+      CURRENT_RECORD=$(aws route53 list-resource-record-sets \
+        --hosted-zone-id "$HOSTED_ZONE_ID" \
+        --query "ResourceRecordSets[?Name=='${RECORD_NAME}']" \
+        --output json)
+    fi
+
     CURRENT_IP=$(echo "$CURRENT_RECORD" | jq -r '.[0].ResourceRecords[0].Value // "none"')
     echo "Current DNS IP: $CURRENT_IP"
+    echo "DNS Record found: $(echo "$CURRENT_RECORD" | jq -r '.[0].Name // "none"')"
+    
+    # Debug: Show what we're querying
+    echo "Querying for record: ${RECORD_NAME}."
 
     # Check if update is needed
     if [ "$PUBLIC_IP" = "$CURRENT_IP" ]; then
