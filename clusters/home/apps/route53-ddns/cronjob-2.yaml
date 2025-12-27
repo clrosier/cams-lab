@@ -1,0 +1,65 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: route53-ddns-robopd2
+  namespace: route53-ddns
+spec:
+  schedule: "*/5 * * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: route53-updater
+            image: alpine:3.19
+            command:
+            - /bin/sh
+            - -c
+            - |
+              apk add --no-cache aws-cli curl jq bash
+              /bin/bash /scripts/update-route53.sh
+            env:
+            # AWS credentials from existing secret
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: route53-credentials
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: route53-credentials
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: AWS_REGION
+              valueFrom:
+                secretKeyRef:
+                  name: route53-credentials
+                  key: AWS_REGION
+            # Second hosted zone configuration from secret
+            - name: HOSTED_ZONE_ID
+              valueFrom:
+                secretKeyRef:
+                  name: route53-credentials
+                  key: HOSTED_ZONE_ID_2
+            - name: RECORD_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: route53-credentials
+                  key: RECORD_NAME_2
+            - name: RECORD_TTL
+              valueFrom:
+                secretKeyRef:
+                  name: route53-credentials
+                  key: RECORD_TTL
+            volumeMounts:
+            - name: script
+              mountPath: /scripts
+          volumes:
+          - name: script
+            configMap:
+              name: route53-ddns-script
+              defaultMode: 0755
+

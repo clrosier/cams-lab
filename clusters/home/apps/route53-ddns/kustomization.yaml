@@ -5,3 +5,4 @@ resources:
   - route53-secret.yaml
   - configmap.yaml
   - cronjob.yaml
+  - cronjob-2.yaml
