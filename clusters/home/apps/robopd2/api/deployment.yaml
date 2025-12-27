@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: robopd2-api:latest  # TODO: Update with your actual image registry
+        image: docker.io/robopd2/robopd2-api:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8000
