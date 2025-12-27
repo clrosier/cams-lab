@@ -1,0 +1,29 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageUpdateAutomation
+metadata:
+  name: robopd2-api
+  namespace: robopd2
+spec:
+  interval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  git:
+    checkout:
+      ref:
+        branch: main
+    commit:
+      author:
+        name: fluxcdbot
+        email: fluxcdbot@users.noreply.github.com
+      messageTemplate: |
+        Update image tag for robopd2-api
+        [skip ci]
+    push:
+      branch: main
+  update:
+    path: ./clusters/home/apps/robopd2/api
+    strategy: Setters
+

@@ -7,9 +7,8 @@ metadata:
   labels:
     app: robopd2-api
   annotations:
-    # Tell Flux Image Automation to update the 'api' container with the latest image
-    # from the ImagePolicy named 'robopd2-api' (same namespace)
-    image.fluxcd.io/api: robopd2-api
+    # Flux Image Automation will update the image tag via ImageUpdateAutomation
+    # The image field has the policy annotation: # {"$imagepolicy": "robopd2:robopd2-api"}
 spec:
   replicas: 1
   selector:
@@ -22,7 +21,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: docker.io/robopd2/robopd2-api:latest
+        image: docker.io/robopd2/robopd2-api:main  # {"$imagepolicy": "robopd2:robopd2-api"}
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8000
