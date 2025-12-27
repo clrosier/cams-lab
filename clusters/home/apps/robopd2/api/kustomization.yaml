@@ -4,4 +4,6 @@ kind: Kustomization
 resources:
   - deployment.yaml
   - service.yaml
+  - imagerepository.yaml
+  - imagepolicy.yaml
 

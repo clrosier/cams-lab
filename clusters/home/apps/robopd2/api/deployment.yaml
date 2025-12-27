@@ -6,6 +6,10 @@ metadata:
   namespace: robopd2
   labels:
     app: robopd2-api
+  annotations:
+    # Tell Flux Image Automation to update the 'api' container with the latest image
+    # from the ImagePolicy named 'robopd2-api' (same namespace)
+    image.fluxcd.io/api: robopd2-api
 spec:
   replicas: 1
   selector:

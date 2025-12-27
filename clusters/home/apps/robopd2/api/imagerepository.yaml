@@ -1,0 +1,10 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: robopd2-api
+  namespace: robopd2
+spec:
+  image: docker.io/robopd2/robopd2-api
+  interval: 3m  # Check for new images every 3 minutes
+

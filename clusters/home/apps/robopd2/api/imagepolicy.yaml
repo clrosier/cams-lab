@@ -1,0 +1,18 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: robopd2-api
+  namespace: robopd2
+spec:
+  imageRepositoryRef:
+    name: robopd2-api
+  filterTags:
+    # Only consider 'latest' and 'main' tags (your workflow pushes both)
+    pattern: '^(latest|main)$'
+    extract: '$1'
+  policy:
+    # Use alphabetical sorting - 'latest' will be preferred over 'main'
+    alphabetical:
+      order: asc
+
