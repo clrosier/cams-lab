@@ -9,4 +9,5 @@ resources:
   - imagepolicy.yaml
   - imageupdateautomation.yaml
   - api-auth-secret.yaml
+  - referencegrant.yaml
 

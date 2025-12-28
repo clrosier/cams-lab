@@ -29,3 +29,6 @@ spec:
           - kind: Secret
             name: cameronrosier-tls
             namespace: default
+          - kind: Secret
+            name: robopd2-tls
+            namespace: robopd2
