@@ -1,0 +1,16 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: flux-manifests
+  namespace: flux-system
+spec:
+  interval: 24h
+  url: https://github.com/fluxcd/flux2
+  ref:
+    tag: v0.44.0
+  ignore: |
+    # ignore all
+    /*
+    # include manifests
+    !/manifests
