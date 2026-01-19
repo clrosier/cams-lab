@@ -9,12 +9,12 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./clusters/home/infra/cert-manager/issuers
+  path: ./clusters/home/infra/controllers/cert-manager/issuers
   prune: true
   wait: true
   timeout: 5m
   dependsOn:
-    - name: flux-system
+    - name: cert-manager-controller
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2
       kind: HelmRelease
