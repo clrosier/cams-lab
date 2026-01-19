@@ -6,5 +6,6 @@ resources:
   - ./monitoring.yaml
   - ./actions-runner-controller.yaml
   - ./envoy-gateway.yaml
+  - ./image-reflector-controller.yaml
   - ./infra.yaml
   - ./apps.yaml
