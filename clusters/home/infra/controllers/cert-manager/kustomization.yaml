@@ -5,4 +5,3 @@ resources:
   - namespace.yaml
   - helmrepo.yaml
   - helmrelease.yaml
-  - issuers-kustomization.yaml
