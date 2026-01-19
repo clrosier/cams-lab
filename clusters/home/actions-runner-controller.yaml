@@ -11,8 +11,9 @@ spec:
     name: flux-system
   path: ./clusters/home/infra/controllers/actions-runner-controller
   prune: true
-  wait: true
-  timeout: 5m  decryption:
+  wait: false
+  timeout: 5m
+  decryption:
     provider: sops
     secretRef:
       name: sops-age
