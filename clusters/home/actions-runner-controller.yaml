@@ -12,4 +12,7 @@ spec:
   path: ./clusters/home/infra/controllers/actions-runner-controller
   prune: true
   wait: true
-  timeout: 5m
+  timeout: 5m  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
