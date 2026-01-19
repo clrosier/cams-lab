@@ -10,6 +10,6 @@ spec:
     kind: GitRepository
     name: flux-manifests
     namespace: flux-system
-  path: ./manifests/policies/image-reflector-controller
+  path: ./manifests/install/crd
   prune: true
   wait: false
