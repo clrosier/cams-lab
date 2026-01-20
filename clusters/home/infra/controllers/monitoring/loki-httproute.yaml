@@ -12,6 +12,7 @@ spec:
       sectionName: https-cameronrosier
   hostnames:
     - "cameronrosier.com"
+    - "www.cameronrosier.com"
   rules:
     - matches:
         - path:

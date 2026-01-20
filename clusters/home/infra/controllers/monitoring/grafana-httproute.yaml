@@ -13,6 +13,7 @@ spec:
       sectionName: https-cameronrosier  # Use HTTPS listener for cameronrosier.com
   hostnames:
     - "cameronrosier.com"
+    - "www.cameronrosier.com"
   rules:
     - matches:
         - path:

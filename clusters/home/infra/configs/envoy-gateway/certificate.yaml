@@ -11,6 +11,8 @@ spec:
     kind: ClusterIssuer
   dnsNames:
     - "cameronrosier.com"
+    - "www.cameronrosier.com"
+    - "*.cameronrosier.com"
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
