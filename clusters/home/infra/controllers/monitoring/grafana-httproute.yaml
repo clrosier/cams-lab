@@ -10,7 +10,7 @@ spec:
   parentRefs:
     - name: home-gateway
       namespace: default
-      sectionName: https  # Use HTTPS listener
+      sectionName: https-cameronrosier  # Use HTTPS listener for cameronrosier.com
   hostnames:
     - "cameronrosier.com"
   rules:

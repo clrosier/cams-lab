@@ -10,7 +10,7 @@ spec:
   parentRefs:
     - name: home-gateway
       namespace: default
-      sectionName: https  # Use HTTPS listener
+      sectionName: https-robopd2  # Use HTTPS listener for robopd2.com
   hostnames:
     - "robopd2.com"
   rules:
