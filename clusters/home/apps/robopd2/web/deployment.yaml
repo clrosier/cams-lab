@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: robopd2-web:latest  # TODO: Update with your actual image registry
+        image: docker.io/robopd2/robopd2-web:main-9c0289b  # {"$imagepolicy": "robopd2:robopd2-web"}
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
