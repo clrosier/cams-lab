@@ -24,13 +24,13 @@ spec:
         image: docker.io/robopd2/robopd2-api:main-f4600dd  # {"$imagepolicy": "robopd2:robopd2-api:init"}
         command: ["alembic", "upgrade", "head"]
         env:
-        - name: DATABASE_URL
-          value: "postgresql://robopd2:$(POSTGRES_PASSWORD)@postgresql.robopd2.svc.cluster.local:5432/robopd2"
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
               name: postgres-credentials
               key: password
+        - name: DATABASE_URL
+          value: "postgresql://robopd2:$(POSTGRES_PASSWORD)@postgresql.robopd2.svc.cluster.local:5432/robopd2"
       containers:
       - name: api
         image: docker.io/robopd2/robopd2-api:main-f4600dd  # {"$imagepolicy": "robopd2:robopd2-api"}
@@ -40,13 +40,13 @@ spec:
           name: http
           protocol: TCP
         env:
-        - name: DATABASE_URL
-          value: "postgresql://robopd2:$(POSTGRES_PASSWORD)@postgresql.robopd2.svc.cluster.local:5432/robopd2"
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
               name: postgres-credentials
               key: password
+        - name: DATABASE_URL
+          value: "postgresql://robopd2:$(POSTGRES_PASSWORD)@postgresql.robopd2.svc.cluster.local:5432/robopd2"
         - name: API_AUTH_USERNAME
           valueFrom:
             secretKeyRef:
