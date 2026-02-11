@@ -23,4 +23,4 @@ spec:
       branch: main
   update:
     path: ./clusters/home/apps/robopd2/web
-    strategy: Setters
+    strategy: SetNewImagePolicy
