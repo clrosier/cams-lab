@@ -9,9 +9,11 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+    namespace: flux-system
   git:
     checkout:
-      ref: main
+      ref:
+        branch: main
     commit:
       author:
         name: fluxcdbot
@@ -23,4 +25,4 @@ spec:
       branch: main
   update:
     path: ./clusters/home/apps/robopd2/api
-    strategy: SetNewImagePolicy
+    strategy: Setters
