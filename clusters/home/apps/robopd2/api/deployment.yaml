@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -6,9 +5,6 @@ metadata:
   namespace: robopd2
   labels:
     app: robopd2-api
-  annotations:
-    # Flux Image Automation will update the image tag via ImageUpdateAutomation
-    # The image field has the policy annotation: # {"$imagepolicy": "robopd2:robopd2-api"}
 spec:
   replicas: 1
   selector:
@@ -21,7 +17,7 @@ spec:
     spec:
       initContainers:
       - name: run-migrations
-        image: docker.io/robopd2/robopd2-api:main-20260211164420  # {"$imagepolicy": "robopd2:robopd2-api:init"}
+        image: docker.io/robopd2/robopd2-api:main-20260211164420 # {"$imagepolicy": "robopd2:robopd2-api:init"}
         command: ["alembic", "upgrade", "head"]
         env:
         - name: POSTGRES_PASSWORD
@@ -33,7 +29,7 @@ spec:
           value: "postgresql://robopd2:$(POSTGRES_PASSWORD)@postgresql.robopd2.svc.cluster.local:5432/robopd2"
       containers:
       - name: api
-        image: docker.io/robopd2/robopd2-api:main-20260211164420  # {"$imagepolicy": "robopd2:robopd2-api"}
+        image: docker.io/robopd2/robopd2-api:main-20260211190205 # {"$imagepolicy": "robopd2:robopd2-api"}
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8000
@@ -76,4 +72,3 @@ spec:
             port: 8000
           initialDelaySeconds: 10
           periodSeconds: 5
-
