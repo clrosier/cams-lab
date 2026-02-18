@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: docker.io/robopd2/robopd2-web:main-20260213182432 # {"$imagepolicy": "robopd2:robopd2-web"}
+        image: docker.io/robopd2/robopd2-web:main-20260218224110 # {"$imagepolicy": "robopd2:robopd2-web"}
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
