@@ -29,7 +29,7 @@ spec:
           value: "postgresql://robopd2:$(POSTGRES_PASSWORD)@postgresql.robopd2.svc.cluster.local:5432/robopd2"
       containers:
       - name: api
-        image: docker.io/robopd2/robopd2-api:main-20260213182726 # {"$imagepolicy": "robopd2:robopd2-api"}
+        image: docker.io/robopd2/robopd2-api:main-20260219102652 # {"$imagepolicy": "robopd2:robopd2-api"}
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8000
